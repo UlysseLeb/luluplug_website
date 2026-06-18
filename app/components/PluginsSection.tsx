@@ -8,6 +8,7 @@ type Plugin = {
   category: string;
   accent: string;
   controls: Control[];
+  downloadUrl?: string;
 };
 
 const plugins: Plugin[] = [
@@ -18,6 +19,7 @@ const plugins: Plugin[] = [
     price: "FREE",
     category: "Modulation",
     accent: "#e879f9",
+    downloadUrl: "/Vocobox_LuluPlug.zip",
     controls: [
       { label: "RATE", value: 0.3 },
       { label: "DEPTH", value: 0.55 },
@@ -153,10 +155,13 @@ function PluginCard({ plugin }: { plugin: Plugin }) {
           <span className="font-medium">Best for</span> {plugin.bestFor}
         </p>
         <a
-          href={`#${plugin.name.toLowerCase()}`}
+          href={plugin.downloadUrl || `#${plugin.name.toLowerCase()}`}
+          download={plugin.downloadUrl ? true : undefined}
           className="mt-auto block text-center text-sm font-semibold py-2.5 rounded-full border border-border text-brown hover:bg-dim transition-colors"
         >
           {isFree ? "Download for free" : "Learn more"}
+          
+
         </a>
       </div>
     </div>
