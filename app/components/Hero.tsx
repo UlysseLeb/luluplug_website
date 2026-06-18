@@ -1,43 +1,10 @@
-function FeaturedPluginMock() {
-  return (
-    <div className="bg-zinc-900 rounded-2xl p-8 aspect-[16/10] flex flex-col justify-between shadow-2xl">
-      <div className="flex items-center justify-between">
-        <span className="text-zinc-500 text-xs font-mono tracking-widest uppercase">luluplug</span>
-        <span className="text-indigo-400 text-xs font-mono tracking-widest uppercase">Reverb</span>
-      </div>
-
-      <div>
-        <p className="text-zinc-400 text-xs font-mono mb-1">v1.0.0</p>
-        <h2 className="text-white text-3xl font-bold tracking-tight">LuluVerb</h2>
-      </div>
-
-      <div className="flex items-end gap-5">
-        {["SIZE", "DECAY", "DIFF", "PREDELAY", "MOD", "MIX"].map((ctrl, i) => (
-          <div key={ctrl} className="flex flex-col items-center gap-2">
-            <div
-              className="w-9 h-9 rounded-full border-2 border-indigo-500 flex items-center justify-center"
-              style={{ transform: `rotate(${-120 + i * 30}deg)` }}
-            >
-              <div className="w-1 h-3 bg-indigo-400 rounded-full" />
-            </div>
-            <span className="text-zinc-500 text-[9px] tracking-widest font-mono">{ctrl}</span>
-          </div>
-        ))}
-        <div className="ml-auto flex gap-1 items-end">
-          {[0.3, 0.6, 0.9, 0.7, 0.4, 0.8, 0.5, 0.9, 0.3, 0.6].map((h, i) => (
-            <div
-              key={i}
-              className="w-1.5 bg-indigo-500 rounded-sm opacity-80"
-              style={{ height: `${h * 32}px` }}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
+"use client";
+import { useRef } from "react";
 
 export default function Hero() {
+  // référence vers la balise audio pour pouvoir la lancer au clic
+  const audioRef = useRef<HTMLAudioElement>(null);
+
   return (
     <section className="pt-20 pb-16 px-6">
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
@@ -71,7 +38,18 @@ export default function Hero() {
         </div>
 
         <div>
-          <FeaturedPluginMock />
+          {/* audio caché, pas de contrôles visibles : on le lance via le bouton */}
+          <audio ref={audioRef} src="/vocobox-demo.mp3" />
+          <button
+            type="button"
+            onClick={() => audioRef.current?.play()}
+            className="w-full px-6 py-8 rounded-2xl border border-border bg-surface hover:bg-dim transition-colors text-center shadow-2xl"
+          >
+            <span className="block text-xs font-semibold tracking-widest uppercase text-accent mb-2">
+              Vocobox — One of the best vocoders on the market
+            </span>
+            <span className="text-lg font-bold text-brown">▶ Listen to a demo</span>
+          </button>
         </div>
       </div>
     </section>

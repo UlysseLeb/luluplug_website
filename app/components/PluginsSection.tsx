@@ -12,6 +12,20 @@ type Plugin = {
 
 const plugins: Plugin[] = [
   {
+    name: "Vocobox",
+    tagline: "Digital Vocoder with analog character",
+    bestFor: "Vocals, synths, sound design",
+    price: "FREE",
+    category: "Modulation",
+    accent: "#e879f9",
+    controls: [
+      { label: "RATE", value: 0.3 },
+      { label: "DEPTH", value: 0.55 },
+      { label: "PHASE", value: 0.4 },
+      { label: "MIX", value: 0.5 },
+    ],
+  },
+  {
     name: "LuluVerb",
     tagline: "Natural, spatial reverb",
     bestFor: "Vocals, pads, ambiences",
