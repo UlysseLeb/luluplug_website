@@ -1,9 +1,23 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 export default function Hero() {
   // référence vers la balise audio pour pouvoir la lancer au clic
   const audioRef = useRef<HTMLAudioElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  function handlePlayPause() {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      } else {
+        audioRef.current.play();
+        setIsPlaying(true);
+      }
+    }
+  }
+
 
   return (
     <section className="pt-20 pb-16 px-6">
@@ -42,7 +56,7 @@ export default function Hero() {
           <audio ref={audioRef} src="/vocobox-demo.mp3" />
           <button
             type="button"
-            onClick={() => audioRef.current?.play()}
+            onClick={handlePlayPause}
             className="w-full px-6 py-8 rounded-2xl border border-border bg-surface hover:bg-dim transition-colors text-center shadow-2xl"
           >
             <span className="block text-xs font-semibold tracking-widest uppercase text-accent mb-2">

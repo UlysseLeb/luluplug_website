@@ -166,7 +166,7 @@ function PluginCard({ plugin }: { plugin: Plugin }) {
 export default function PluginsSection() {
   return (
     <section id="plugins" className="py-20 px-6 bg-dim">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-10xl mx-auto">
         <div className="mb-12">
           <span className="text-xs font-semibold tracking-widest uppercase text-accent">
             Catalog
