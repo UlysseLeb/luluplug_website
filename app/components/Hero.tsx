@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useRef, useState } from "react";
 
 export default function Hero() {
@@ -51,18 +52,20 @@ export default function Hero() {
           </div>
         </div>
 
-        <div>
+        <div className="w-full max-w-sm mx-auto rounded-2xl shadow-2xl bg-accent/15 flex flex-col items-center justify-center gap-4 py-8">
           {/* audio caché, pas de contrôles visibles : on le lance via le bouton */}
-          <audio ref={audioRef} src="/vocobox-demo.mp3" />
+          <audio ref={audioRef} src="/vocobox-demo.mp3" onEnded={() => setIsPlaying(false)} />
+          <span className="text-xl font-bold text-brown">
+            Vocobox demo
+          </span>
+          <Image src="/head_logo.png" alt="LuluPlug" width={220} height={220} className="object-contain" />
           <button
             type="button"
             onClick={handlePlayPause}
-            className="w-full px-6 py-8 rounded-2xl border border-border bg-surface hover:bg-dim transition-colors text-center shadow-2xl"
+            aria-label={isPlaying ? "Pause demo" : "Play demo"}
+            className="w-16 h-16 rounded-full bg-brown text-bg flex items-center justify-center text-2xl shadow-xl hover:opacity-80 transition-opacity"
           >
-            <span className="block text-xs font-semibold tracking-widest uppercase text-accent mb-2">
-              Vocobox — One of the best vocoders on the market
-            </span>
-            <span className="text-lg font-bold text-brown">▶ Listen to a demo</span>
+            {isPlaying ? "❙❙" : "▶"}
           </button>
         </div>
       </div>
