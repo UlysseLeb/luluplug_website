@@ -55,10 +55,8 @@ export default function Hero() {
         <div className="w-full max-w-sm mx-auto rounded-2xl shadow-2xl bg-accent/15 flex flex-col items-center justify-center gap-4 py-8">
           {/* audio caché, pas de contrôles visibles : on le lance via le bouton */}
           <audio ref={audioRef} src="/vocobox-demo.mp3" onEnded={() => setIsPlaying(false)} />
-          <span className="text-xl font-bold text-brown">
-            Vocobox demo
-          </span>
-          <Image src="/head_logo.png" alt="LuluPlug" width={220} height={220} className="object-contain" />
+          
+          <Image src="/vocobox_logo_text.png" alt="Vocobox" width={220} height={242} className="object-contain" />
           <button
             type="button"
             onClick={handlePlayPause}

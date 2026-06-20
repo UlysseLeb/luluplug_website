@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 type Control = { label: string; value: number };
 
 type Plugin = {
@@ -9,6 +11,7 @@ type Plugin = {
   accent: string;
   controls: Control[];
   downloadUrl?: string;
+  image?: string;
 };
 
 const plugins: Plugin[] = [
@@ -20,6 +23,7 @@ const plugins: Plugin[] = [
     category: "Modulation",
     accent: "#e879f9",
     downloadUrl: "/Vocobox_LuluPlug.zip",
+    image: "/vocobox_logo.png",
     controls: [
       { label: "RATE", value: 0.3 },
       { label: "DEPTH", value: 0.55 },
@@ -94,6 +98,19 @@ function Knob({ control, accent }: { control: Control; accent: string }) {
 
 function PluginUI({ plugin }: { plugin: Plugin }) {
   const bars = [0.4, 0.7, 0.9, 0.6, 0.8, 0.5, 0.95, 0.4, 0.75, 0.6, 0.85, 0.5];
+
+  // si le plugin a une vraie image, on l'affiche à la place de la fausse interface générée
+  if (plugin.image) {
+    return (
+      <div
+        className="bg-zinc-900 rounded-t-xl p-6 flex items-center justify-center"
+        style={{ aspectRatio: "16/8" }}
+      >
+        <Image src={plugin.image} alt={plugin.name} width={120} height={120} className="object-contain" />
+      </div>
+    );
+  }
+
   return (
     <div className="bg-zinc-900 rounded-t-xl p-6 flex flex-col gap-5" style={{ aspectRatio: "16/8" }}>
       <div className="flex items-center justify-between">

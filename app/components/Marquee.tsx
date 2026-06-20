@@ -8,6 +8,7 @@ function MarqueeContent() {
         <span key={i} className="flex items-center gap-8 px-8 whitespace-nowrap">
           <span className="text-4xl font-bold text-brown">New Plugin Vocobox</span>
           <Image src="/LuLu_Plug_Text.png" alt="LuluPlug" width={120} height={48} className="object-contain" />
+          <Image src="/vocobox_logo.png" alt="Vocobox" width={48} height={48} className="object-contain" />
         </span>
       ))}
     </>
@@ -19,7 +20,7 @@ export default function Marquee() {
     <div className="overflow-hidden border-y border-border bg-dim py-6">
       <div
         className="flex w-max"
-        style={{ animation: "marquee 18s linear infinite" }}
+        style={{ animation: "marquee 40s linear infinite" }}
       >
         <div className="flex">
           <MarqueeContent />
