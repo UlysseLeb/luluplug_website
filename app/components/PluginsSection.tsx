@@ -23,7 +23,7 @@ const plugins: Plugin[] = [
     category: "Modulation",
     accent: "#e879f9",
     downloadUrl: "/Vocobox_LuluPlug.zip",
-    image: "/vocobox_logo.png",
+    image: "/ui_vocobox.png",
     controls: [
       { label: "RATE", value: 0.3 },
       { label: "DEPTH", value: 0.55 },
@@ -102,11 +102,8 @@ function PluginUI({ plugin }: { plugin: Plugin }) {
   // si le plugin a une vraie image, on l'affiche à la place de la fausse interface générée
   if (plugin.image) {
     return (
-      <div
-        className="bg-zinc-900 rounded-t-xl p-6 flex items-center justify-center"
-        style={{ aspectRatio: "16/8" }}
-      >
-        <Image src={plugin.image} alt={plugin.name} width={120} height={120} className="object-contain" />
+      <div className="relative bg-zinc-900 rounded-t-xl overflow-hidden" style={{ aspectRatio: "16/8" }}>
+        <Image src={plugin.image} alt={plugin.name} fill className="object-contain" />
       </div>
     );
   }
