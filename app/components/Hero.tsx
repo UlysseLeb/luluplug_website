@@ -61,7 +61,7 @@ export default function Hero() {
             type="button"
             onClick={handlePlayPause}
             aria-label={isPlaying ? "Pause demo" : "Play demo"}
-            className="w-16 h-16 rounded-full bg-brown text-bg flex items-center justify-center text-2xl shadow-xl hover:opacity-80 transition-opacity"
+            className="w-16 h-16 rounded-full bg-brown text-bg flex items-center justify-center text-2xl shadow-xl transition-transform duration-300 ease-out hover:scale-110 hover:opacity-90"
           >
             {isPlaying ? "❙❙" : "▶"}
           </button>

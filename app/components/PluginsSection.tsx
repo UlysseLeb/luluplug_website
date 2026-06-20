@@ -1,4 +1,5 @@
 import Image from "next/image";
+import type { ReactNode } from "react";
 
 type Control = { label: string; value: number };
 
@@ -96,51 +97,71 @@ function Knob({ control, accent }: { control: Control; accent: string }) {
   );
 }
 
+// fenêtre de plugin "flottante" avec lueur colorée en fond, façon Arturia
+function PluginWindow({ accent, children }: { accent: string; children: ReactNode }) {
+  return (
+    <div className="relative pt-6 px-4">
+      <div
+        className="absolute inset-x-6 inset-y-2 rounded-full blur-2xl"
+        style={{ backgroundColor: accent, animation: "plugin-glow 5s ease-in-out infinite" }}
+      />
+      <div
+        className="relative bg-zinc-900 rounded-xl overflow-hidden shadow-xl transition-transform duration-300 ease-out group-hover:scale-[1.04] group-hover:-translate-y-1"
+        style={{ aspectRatio: "16/8", animation: "plugin-float 6s ease-in-out infinite" }}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
 function PluginUI({ plugin }: { plugin: Plugin }) {
   const bars = [0.4, 0.7, 0.9, 0.6, 0.8, 0.5, 0.95, 0.4, 0.75, 0.6, 0.85, 0.5];
 
   // si le plugin a une vraie image, on l'affiche à la place de la fausse interface générée
   if (plugin.image) {
     return (
-      <div className="relative bg-zinc-900 rounded-t-xl overflow-hidden" style={{ aspectRatio: "16/8" }}>
+      <PluginWindow accent={plugin.accent}>
         <Image src={plugin.image} alt={plugin.name} fill className="object-contain" />
-      </div>
+      </PluginWindow>
     );
   }
 
   return (
-    <div className="bg-zinc-900 rounded-t-xl p-6 flex flex-col gap-5" style={{ aspectRatio: "16/8" }}>
-      <div className="flex items-center justify-between">
-        <span className="text-zinc-600 text-[10px] font-mono tracking-widest uppercase">luluplug</span>
-        <span className="text-[10px] font-mono tracking-widest uppercase" style={{ color: plugin.accent }}>
-          {plugin.category}
-        </span>
-      </div>
-      <p className="text-white text-xl font-bold tracking-tight leading-none">{plugin.name}</p>
-      <div className="flex items-end justify-between">
-        <div className="flex gap-4">
-          {plugin.controls.map((ctrl) => (
-            <Knob key={ctrl.label} control={ctrl} accent={plugin.accent} />
-          ))}
+    <PluginWindow accent={plugin.accent}>
+      <div className="h-full p-6 flex flex-col gap-5">
+        <div className="flex items-center justify-between">
+          <span className="text-zinc-600 text-[10px] font-mono tracking-widest uppercase">luluplug</span>
+          <span className="text-[10px] font-mono tracking-widest uppercase" style={{ color: plugin.accent }}>
+            {plugin.category}
+          </span>
         </div>
-        <div className="flex items-end gap-0.5">
-          {bars.map((h, i) => (
-            <div
-              key={i}
-              className="w-1 rounded-sm"
-              style={{ height: `${h * 28}px`, backgroundColor: plugin.accent, opacity: 0.5 + h * 0.5 }}
-            />
-          ))}
+        <p className="text-white text-xl font-bold tracking-tight leading-none">{plugin.name}</p>
+        <div className="flex items-end justify-between">
+          <div className="flex gap-4">
+            {plugin.controls.map((ctrl) => (
+              <Knob key={ctrl.label} control={ctrl} accent={plugin.accent} />
+            ))}
+          </div>
+          <div className="flex items-end gap-0.5">
+            {bars.map((h, i) => (
+              <div
+                key={i}
+                className="w-1 rounded-sm"
+                style={{ height: `${h * 28}px`, backgroundColor: plugin.accent, opacity: 0.5 + h * 0.5 }}
+              />
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </PluginWindow>
   );
 }
 
 function PluginCard({ plugin }: { plugin: Plugin }) {
   const isFree = plugin.price === "FREE";
   return (
-    <div className="group flex flex-col rounded-xl border border-border overflow-hidden hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 bg-surface">
+    <div className="group flex flex-col rounded-xl border border-border hover:shadow-lg transition-shadow duration-300 bg-surface overflow-hidden">
       <PluginUI plugin={plugin} />
       <div className="p-5 flex flex-col flex-1">
         <div className="flex items-center justify-between mb-3">

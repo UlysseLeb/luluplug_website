@@ -45,3 +45,25 @@ h1, h2, h3 {
     transform: translateX(-50%);
   }
 }
+
+/* léger flottement vertical pour donner vie à la fenêtre de plugin, façon Arturia */
+@keyframes plugin-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* pulsation douce de la lueur colorée derrière la fenêtre de plugin */
+@keyframes plugin-glow {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.05);
+  }
+}
