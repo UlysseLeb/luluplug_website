@@ -1,7 +1,12 @@
+"use client";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Navbar() {
+  // état du menu mobile (ouvert/fermé)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
     <header className="sticky top-0 z-50 bg-bg/95 backdrop-blur-sm border-b border-border">
       <div className="max-w-10xl mx-auto px-6 h-28 flex items-center justify-between">
@@ -41,7 +46,58 @@ export default function Navbar() {
             Login
           </Link>
         </div>
+
+        {/* bouton hamburger, visible seulement sur mobile */}
+        <button
+          type="button"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          className="md:hidden w-10 h-10 flex items-center justify-center text-brown text-2xl"
+        >
+          {isMenuOpen ? "✕" : "☰"}
+        </button>
       </div>
+
+      {/* menu déroulant mobile */}
+      {isMenuOpen && (
+        <nav className="md:hidden flex flex-col gap-1 px-6 pb-6 text-base font-medium text-brown-mid border-t border-border">
+          <a
+            href="#plugins"
+            onClick={() => setIsMenuOpen(false)}
+            className="py-3 hover:text-brown transition-colors"
+          >
+            Plugins
+          </a>
+          <a
+            href="#learn"
+            onClick={() => setIsMenuOpen(false)}
+            className="py-3 hover:text-brown transition-colors"
+          >
+            Learn
+          </a>
+          <a
+            href="#about"
+            onClick={() => setIsMenuOpen(false)}
+            className="py-3 hover:text-brown transition-colors"
+          >
+            About
+          </a>
+          <a
+            href="#faq"
+            onClick={() => setIsMenuOpen(false)}
+            className="py-3 hover:text-brown transition-colors"
+          >
+            Support / FAQ
+          </a>
+          <Link
+            href="/login"
+            onClick={() => setIsMenuOpen(false)}
+            className="mt-2 px-5 py-2.5 rounded-full border border-border text-brown text-center hover:bg-dim transition-colors"
+          >
+            Login
+          </Link>
+        </nav>
+      )}
     </header>
   );
 }
