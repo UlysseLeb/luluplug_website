@@ -28,6 +28,21 @@ const plugins: Plugin[] = [
     ],
   },
   {
+    name: "Lulu Synth 2",
+    tagline: "Digital Vocoder with analog character",
+    bestFor: "Vocals, synths, sound design",
+    price: "FREE",
+    category: "Modulation",
+    accent: "#34d399",
+    downloadUrl: "/Lulu-Synth-2_LuluPlug.zip",
+    controls: [
+      { label: "RATE", value: 0.3 },
+      { label: "DEPTH", value: 0.55 },
+      { label: "PHASE", value: 0.4 },
+      { label: "MIX", value: 0.5 },
+    ],
+  },
+  {
     name: "LuluVerb",
     tagline: "Natural, spatial reverb",
     bestFor: "Vocals, pads, ambiences",
@@ -43,21 +58,7 @@ const plugins: Plugin[] = [
       { label: "MIX", value: 0.5 },
     ],
   },
-  {
-    name: "LuluDelay",
-    tagline: "Analog delay with character",
-    bestFor: "Guitars, percussion, leads",
-    price: 49,
-    category: "Delay",
-    accent: "#34d399",
-    controls: [
-      { label: "TIME", value: 0.45 },
-      { label: "FDBK", value: 0.35 },
-      { label: "TONE", value: 0.6 },
-      { label: "SPREAD", value: 0.5 },
-      { label: "MIX", value: 0.5 },
-    ],
-  },
+  
   {
     name: "LuluComp",
     tagline: "Transparent or colored compression",
@@ -73,20 +74,7 @@ const plugins: Plugin[] = [
       { label: "GAIN", value: 0.65 },
     ],
   },
-  {
-    name: "LuluSpace",
-    tagline: "Experimental spatial modulation",
-    bestFor: "Pads, textures, sound design",
-    price: "FREE",
-    category: "Modulation",
-    accent: "#e879f9",
-    controls: [
-      { label: "RATE", value: 0.3 },
-      { label: "DEPTH", value: 0.55 },
-      { label: "PHASE", value: 0.4 },
-      { label: "MIX", value: 0.5 },
-    ],
-  },
+  
 ];
 
 function Knob({ control, accent }: { control: Control; accent: string }) {

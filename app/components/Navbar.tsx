@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Navbar() {
   return (
@@ -33,12 +34,12 @@ export default function Navbar() {
           <a href="#faq" className="hover:text-brown transition-colors">
             Support / FAQ
           </a>
-          <a
-            href="#login"
+          <Link
+            href="/login"
             className="px-5 py-2.5 rounded-full border border-border text-brown hover:bg-dim transition-colors"
           >
             Login
-          </a>
+          </Link>
         </div>
       </div>
     </header>
