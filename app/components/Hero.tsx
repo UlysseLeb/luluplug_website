@@ -28,9 +28,9 @@ export default function Hero() {
             Audio Plugins
           </span>
           <h1 className="text-5xl font-bold tracking-tight text-brown leading-tight mb-5">
-            Tools that let
+            Discover Lulu's 
             <br />
-            your music breathe.
+            sound creations.
           </h1>
           <p className="text-lg text-brown-mid leading-relaxed mb-8 max-w-md">
             Simple, precise and honest audio plugins — built for producers

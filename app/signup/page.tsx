@@ -1,10 +1,10 @@
 import Link from "next/link";
 
-export default function LoginPage() {
+export default function SignUpPage() {
   return (
     <section className="min-h-[70vh] flex items-center justify-center px-6 py-20">
       <form className="w-full max-w-sm flex flex-col gap-4 p-8 rounded-2xl border border-border bg-surface shadow-2xl">
-        <h1 className="text-2xl font-bold text-brown mb-2 text-center">Log in</h1>
+        <h1 className="text-2xl font-bold text-brown mb-2 text-center">Sign Up</h1>
 
         <label className="flex flex-col gap-1 text-sm text-brown-mid">
           Email
@@ -30,13 +30,13 @@ export default function LoginPage() {
           type="submit"
           className="mt-2 px-6 py-3 rounded-full bg-brown text-bg font-semibold hover:opacity-80 transition-opacity text-sm"
         >
-          Log in
+          Sign Up
         </button>
         <Link
-          href="/signup"
+          href="/login"
           className="text-center text-sm text-brown-mid hover:text-brown transition-colors"
         >
-          No account yet? Sign up
+          Already have an account? Log in
         </Link>
       </form>
     </section>
