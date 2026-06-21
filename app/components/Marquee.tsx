@@ -20,7 +20,7 @@ export default function Marquee() {
     <div className="overflow-hidden border-y border-border bg-dim py-6">
       <div
         className="flex w-max"
-        style={{ animation: "marquee 70s linear infinite" }}
+        style={{ animation: "marquee 110s linear infinite" }}
       >
         <div className="flex">
           <MarqueeContent />

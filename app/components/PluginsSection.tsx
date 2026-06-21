@@ -27,7 +27,7 @@ const plugins: Plugin[] = [
     type: "Instrument",
     accent: "#f5a623",
     downloadUrl: "/Vocobox_LuluPlug.zip",
-    image: "/ui_vocobox-Photoroom.png",
+    image: "/ui_vocobox_V1.png",
     controls: [
       { label: "RATE", value: 0.3 },
       { label: "DEPTH", value: 0.55 },
@@ -95,7 +95,7 @@ const plugins: Plugin[] = [
     category: "Drums",
     type: "Instrument",
     accent: "#06b6d4",
-    image: "/ui_lulu_drums-Photoroom.png",
+    image: "/ui_lulu_drums_V1.png",
     controls: [
       { label: "TEMPO", value: 0.5 },
       { label: "SWING", value: 0.4 },
@@ -263,11 +263,10 @@ function PluginCard({ plugin }: { plugin: Plugin }) {
         <a
           href={plugin.downloadUrl || `#${plugin.name.toLowerCase()}`}
           download={plugin.downloadUrl ? true : undefined}
-          className="mt-auto block text-center text-sm font-semibold py-2.5 rounded-full border border-border text-brown hover:bg-dim transition-colors"
+          className="group mt-auto flex items-center justify-center gap-2 text-center text-sm font-semibold py-2.5 rounded-full border border-border text-brown transition-colors duration-300 hover:bg-black/5"
         >
-          {isFree ? "Download for free" : "Learn more"}
-          
-
+          <span>{isFree ? "Download for free" : "Learn more"}</span>
+          <span className="inline-block transition-transform duration-300 group-hover:translate-x-0.5">→</span>
         </a>
       </div>
     </div>

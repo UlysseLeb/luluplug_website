@@ -1,13 +1,16 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import LoginModal from "./LoginModal";
 
 export default function Navbar() {
   // état du menu mobile (ouvert/fermé)
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // état de la popup de connexion (ouverte/fermée)
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   return (
+    <>
     <header className="sticky top-0 z-50 bg-bg/95 backdrop-blur-sm border-b border-border">
       <div className="max-w-10xl mx-auto px-6 h-28 flex items-center justify-between">
         <div className="flex items-center gap-8">
@@ -39,12 +42,13 @@ export default function Navbar() {
           <a href="#faq" className="hover:text-brown transition-colors">
             Support / FAQ
           </a>
-          <Link
-            href="/login"
+          <button
+            type="button"
+            onClick={() => setIsLoginOpen(true)}
             className="px-5 py-2.5 rounded-full border border-border text-brown hover:bg-dim transition-colors"
           >
             Login
-          </Link>
+          </button>
         </div>
 
         {/* bouton hamburger, visible seulement sur mobile */}
@@ -89,15 +93,21 @@ export default function Navbar() {
           >
             Support / FAQ
           </a>
-          <Link
-            href="/login"
-            onClick={() => setIsMenuOpen(false)}
+          <button
+            type="button"
+            onClick={() => {
+              setIsMenuOpen(false);
+              setIsLoginOpen(true);
+            }}
             className="mt-2 px-5 py-2.5 rounded-full border border-border text-brown text-center hover:bg-dim transition-colors"
           >
             Login
-          </Link>
+          </button>
         </nav>
       )}
+
     </header>
+    <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
+    </>
   );
 }
