@@ -5,10 +5,10 @@ function MarqueeContent() {
   return (
     <>
       {Array.from({ length: 8 }).map((_, i) => (
-        <span key={i} className="flex items-center gap-8 px-8 whitespace-nowrap">
-          <span className="text-4xl font-bold text-brown">New Plugin Vocobox</span>
-          <Image src="/vocobox_logo.png" alt="Vocobox" width={68} height={68} className="object-contain" />
-          <Image src="/LuLu_Plug_Text.png" alt="LuluPlug" width={120} height={48} className="object-contain relative left-2" />
+        <span key={i} className="flex items-center gap-5 px-5 whitespace-nowrap">
+          <span className="text-xl font-bold text-brown">New Plugin Vocobox</span>
+          <Image src="/vocobox_logo.png" alt="Vocobox" width={36} height={36} className="object-contain" />
+          <Image src="/LuLu_Plug_Text.png" alt="LuluPlug" width={64} height={26} className="object-contain relative left-1" />
         </span>
       ))}
     </>
@@ -17,7 +17,7 @@ function MarqueeContent() {
 
 export default function Marquee() {
   return (
-    <div className="overflow-hidden border-y border-border bg-dim py-6">
+    <div className="overflow-hidden border-y border-border bg-dim py-3">
       <div
         className="flex w-max"
         style={{ animation: "marquee 110s linear infinite" }}

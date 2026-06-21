@@ -1,9 +1,31 @@
+"use client";
 import Link from "next/link";
+import type { FormEvent } from "react";
 
 export default function SignUpPage() {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    // on empêche le rechargement de la page par défaut du navigateur
+    e.preventDefault();
+
+    // on récupère les valeurs des champs du formulaire
+    const form = e.currentTarget;
+    const email = (form.elements.namedItem("email") as HTMLInputElement).value;
+    const password = (form.elements.namedItem("password") as HTMLInputElement).value;
+
+    // on envoie une requête POST vers notre route API, avec les données en JSON
+    await fetch("/api/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+  }
+
   return (
     <section className="min-h-[70vh] flex items-center justify-center px-6 py-20">
-      <form className="w-full max-w-sm flex flex-col gap-4 p-8 rounded-2xl border border-border bg-surface shadow-2xl">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-sm flex flex-col gap-4 p-8 rounded-2xl border border-border bg-surface shadow-2xl"
+      >
         <h1 className="text-2xl font-bold text-brown mb-2 text-center">Sign Up</h1>
 
         <label className="flex flex-col gap-1 text-sm text-brown-mid">
