@@ -10,6 +10,7 @@ type Plugin = {
   bestFor: string;
   price: number | "FREE";
   category: string;
+  type: "Instrument" | "Effect";
   accent: string;
   controls: Control[];
   downloadUrl?: string;
@@ -23,9 +24,10 @@ const plugins: Plugin[] = [
     bestFor: "Vocals, synths, sound design",
     price: "FREE",
     category: "Modulation",
+    type: "Instrument",
     accent: "#f5a623",
     downloadUrl: "/Vocobox_LuluPlug.zip",
-    image: "/ui_vocobox_no_background.png",
+    image: "/ui_vocobox-Photoroom.png",
     controls: [
       { label: "RATE", value: 0.3 },
       { label: "DEPTH", value: 0.55 },
@@ -39,6 +41,7 @@ const plugins: Plugin[] = [
     bestFor: "Vocals, synths, sound design",
     price: "FREE",
     category: "Modulation",
+    type: "Instrument",
     accent: "#34d399",
     downloadUrl: "/Lulu-Synth-2_LuluPlug.zip",
     image: "/ui_lulusynth_no_background.png",
@@ -55,8 +58,9 @@ const plugins: Plugin[] = [
     bestFor: "Vocals, pads, ambiences",
     price: 49,
     category: "Reverb",
+    type: "Effect",
     accent: "#818cf8",
-    image: "/ui_lulu_verb.png",
+    image: "/ui_lulu_verb-Photoroom.png",
     controls: [
       { label: "SIZE", value: 0.7 },
       { label: "DECAY", value: 0.55 },
@@ -72,8 +76,9 @@ const plugins: Plugin[] = [
     bestFor: "Bus, drums, mix buss",
     price: 39,
     category: "Dynamics",
+    type: "Effect",
     accent: "#f43f5e",
-    image: "/ui_lulu_comp.png",
+    image: "/ui_lulu_comp-Photoroom.png",
     controls: [
       { label: "THRESH", value: 0.6 },
       { label: "RATIO", value: 0.4 },
@@ -82,7 +87,22 @@ const plugins: Plugin[] = [
       { label: "GAIN", value: 0.65 },
     ],
   },
-  
+  {
+    name: "Lulu Drums",
+    tagline: "Classic drum machine",
+    bestFor: "Beats, grooves, sound design",
+    price: 39,
+    category: "Drums",
+    type: "Instrument",
+    accent: "#06b6d4",
+    image: "/ui_lulu_drums-Photoroom.png",
+    controls: [
+      { label: "TEMPO", value: 0.5 },
+      { label: "SWING", value: 0.4 },
+      { label: "START", value: 0.3 },
+      { label: "VOLUME", value: 0.6 },
+    ],
+  },
 
 ];
 
@@ -255,17 +275,29 @@ function PluginCard({ plugin }: { plugin: Plugin }) {
 }
 
 export default function PluginsSection() {
+  const instruments = plugins.filter((p) => p.type === "Instrument");
+  const effects = plugins.filter((p) => p.type === "Effect");
+
   return (
     <section id="plugins" className="py-20 px-6 bg-dim">
       <div className="max-w-10xl mx-auto">
         <div className="mb-12">
-          <span className="text-xs font-semibold tracking-widest uppercase text-accent">
+          <span className="text-sm font-semibold tracking-widest uppercase text-accent">
             Catalog
           </span>
-          <h2 className="mt-2 text-3xl font-bold text-brown">All plugins</h2>
+          <h2 className="mt-2 text-4xl xl:text-5xl font-bold text-brown">All plugins</h2>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
-          {plugins.map((plugin) => (
+
+        <h3 className="text-2xl xl:text-3xl font-bold text-brown mb-8">Instruments</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8 mb-20">
+          {instruments.map((plugin) => (
+            <PluginCard key={plugin.name} plugin={plugin} />
+          ))}
+        </div>
+
+        <h3 className="text-2xl xl:text-3xl font-bold text-brown mb-8">Effects</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
+          {effects.map((plugin) => (
             <PluginCard key={plugin.name} plugin={plugin} />
           ))}
         </div>
