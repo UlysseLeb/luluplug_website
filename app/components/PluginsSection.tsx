@@ -1,5 +1,6 @@
+"use client";
 import Image from "next/image";
-import type { ReactNode } from "react";
+import { useRef, useState, type MouseEvent, type ReactNode } from "react";
 
 type Control = { label: string; value: number };
 
@@ -22,9 +23,9 @@ const plugins: Plugin[] = [
     bestFor: "Vocals, synths, sound design",
     price: "FREE",
     category: "Modulation",
-    accent: "#e879f9",
+    accent: "#f5a623",
     downloadUrl: "/Vocobox_LuluPlug.zip",
-    image: "/ui_vocobox.png",
+    image: "/ui_vocobox_no_background.png",
     controls: [
       { label: "RATE", value: 0.3 },
       { label: "DEPTH", value: 0.55 },
@@ -92,22 +93,74 @@ function Knob({ control, accent }: { control: Control; accent: string }) {
       >
         <div className="w-0.5 h-2.5 rounded-full" style={{ backgroundColor: accent }} />
       </div>
-      <span className="text-zinc-500 text-[9px] tracking-widest font-mono">{control.label}</span>
+      <span className="text-brown-light text-[9px] tracking-widest font-mono">{control.label}</span>
     </div>
   );
 }
 
-// fenêtre de plugin "flottante" avec lueur colorée en fond, façon Arturia
+// petits carrés décoratifs disposés autour de la fenêtre, qui bougent avec elle au survol
+const decorSquares = [
+  { top: "-10%", left: "-6%", size: 22, lag: 1 },
+  { top: "8%", left: "104%", size: 16, lag: 1.6 },
+  { top: "78%", left: "-8%", size: 14, lag: 1.3 },
+  { top: "92%", left: "98%", size: 20, lag: 0.8 },
+];
+
+// fenêtre de plugin "flottante", entourée de petits carrés qui se déplacent avec elle au survol
 function PluginWindow({ accent, children }: { accent: string; children: ReactNode }) {
+  const windowRef = useRef<HTMLDivElement>(null);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
+
+  function handleMouseMove(e: MouseEvent<HTMLDivElement>) {
+    const el = windowRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    // position de la souris par rapport au centre de la fenêtre, normalisée entre -1 et 1
+    const px = (e.clientX - rect.left) / rect.width - 0.5;
+    const py = (e.clientY - rect.top) / rect.height - 0.5;
+    setOffset({ x: px * 16, y: py * 12 });
+  }
+
+  function handleMouseLeave() {
+    setOffset({ x: 0, y: 0 });
+    setIsHovering(false);
+  }
+
+  const transition = isHovering ? "transform 0.15s ease-out" : "transform 0.4s ease-out";
+
   return (
-    <div className="relative pt-6 px-4">
+    <div className="relative pt-6 px-6 pb-2">
+      {/* les carrés suivent le même déplacement que la fenêtre, en plus marqué, pour donner un effet vivant */}
+      {decorSquares.map((sq, i) => (
+        <div
+          key={i}
+          className="absolute rounded-md"
+          style={{
+            top: sq.top,
+            left: sq.left,
+            width: sq.size,
+            height: sq.size,
+            backgroundColor: accent,
+            opacity: isHovering ? 0.8 : 0.35,
+            transform: `translate(${offset.x * sq.lag}px, ${offset.y * sq.lag}px) scale(${isHovering ? 1.15 : 1})`,
+            transition,
+          }}
+        />
+      ))}
+
       <div
-        className="absolute inset-x-6 inset-y-2 rounded-full blur-2xl"
-        style={{ backgroundColor: accent, animation: "plugin-glow 5s ease-in-out infinite" }}
-      />
-      <div
-        className="relative bg-zinc-900 rounded-xl overflow-hidden shadow-xl transition-transform duration-300 ease-out group-hover:scale-[1.04] group-hover:-translate-y-1"
-        style={{ aspectRatio: "16/8", animation: "plugin-float 6s ease-in-out infinite" }}
+        ref={windowRef}
+        onMouseMove={handleMouseMove}
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={handleMouseLeave}
+        className="relative bg-accent/15 rounded-xl overflow-hidden shadow-xl"
+        style={{
+          aspectRatio: "16/8",
+          animation: "plugin-float 6s ease-in-out infinite",
+          transform: `translate(${offset.x}px, ${offset.y}px) scale(${isHovering ? 1.03 : 1})`,
+          transition,
+        }}
       >
         {children}
       </div>
@@ -131,12 +184,12 @@ function PluginUI({ plugin }: { plugin: Plugin }) {
     <PluginWindow accent={plugin.accent}>
       <div className="h-full p-6 flex flex-col gap-5">
         <div className="flex items-center justify-between">
-          <span className="text-zinc-600 text-[10px] font-mono tracking-widest uppercase">luluplug</span>
+          <span className="text-brown-light text-[10px] font-mono tracking-widest uppercase">luluplug</span>
           <span className="text-[10px] font-mono tracking-widest uppercase" style={{ color: plugin.accent }}>
             {plugin.category}
           </span>
         </div>
-        <p className="text-white text-xl font-bold tracking-tight leading-none">{plugin.name}</p>
+        <p className="text-brown text-xl font-bold tracking-tight leading-none">{plugin.name}</p>
         <div className="flex items-end justify-between">
           <div className="flex gap-4">
             {plugin.controls.map((ctrl) => (
@@ -161,7 +214,7 @@ function PluginUI({ plugin }: { plugin: Plugin }) {
 function PluginCard({ plugin }: { plugin: Plugin }) {
   const isFree = plugin.price === "FREE";
   return (
-    <div className="group flex flex-col rounded-xl border border-border hover:shadow-lg transition-shadow duration-300 bg-surface overflow-hidden">
+    <div className="flex flex-col rounded-xl overflow-visible bg-transparent">
       <PluginUI plugin={plugin} />
       <div className="p-5 flex flex-col flex-1">
         <div className="flex items-center justify-between mb-3">

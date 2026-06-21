@@ -52,20 +52,20 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="w-full max-w-sm mx-auto rounded-2xl shadow-2xl bg-accent/15 flex flex-col items-center justify-center gap-4 py-8">
-          {/* audio caché, pas de contrôles visibles : on le lance via le bouton */}
+        <button
+          type="button"
+          onClick={handlePlayPause}
+          aria-label={isPlaying ? "Pause demo" : "Play demo"}
+          className="w-full max-w-sm mx-auto rounded-2xl shadow-2xl bg-accent/15 flex flex-col items-center justify-center gap-4 py-8 transition-transform duration-300 ease-out hover:scale-105 cursor-pointer"
+        >
+          {/* audio caché, pas de contrôles visibles : on le lance en cliquant sur la fenêtre */}
           <audio ref={audioRef} src="/vocobox-demo.mp3" onEnded={() => setIsPlaying(false)} />
-          
+
           <Image src="/vocobox_logo_text.png" alt="Vocobox" width={220} height={242} className="object-contain" />
-          <button
-            type="button"
-            onClick={handlePlayPause}
-            aria-label={isPlaying ? "Pause demo" : "Play demo"}
-            className="w-16 h-16 rounded-full bg-brown text-bg flex items-center justify-center text-2xl shadow-xl transition-transform duration-300 ease-out hover:scale-110 hover:opacity-90"
-          >
+          <span className="w-16 h-16 rounded-full bg-brown text-bg flex items-center justify-center text-2xl shadow-xl">
             {isPlaying ? "❙❙" : "▶"}
-          </button>
-        </div>
+          </span>
+        </button>
       </div>
     </section>
   );
