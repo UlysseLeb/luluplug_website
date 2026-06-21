@@ -1,19 +1,25 @@
 "use client";
 import Link from "next/link";
-import type { FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 
 export default function LoginModal({
   open,
   onClose,
+  onSuccess,
 }: {
   open: boolean;
   onClose: () => void;
+  onSuccess: () => void;
 }) {
+  // message d'erreur à afficher si la connexion échoue (null = pas d'erreur)
+  const [error, setError] = useState<string | null>(null);
+
   if (!open) return null;
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     // on empêche le rechargement de la page par défaut du navigateur
     e.preventDefault();
+    setError(null);
 
     // on récupère les valeurs des champs du formulaire
     const form = e.currentTarget;
@@ -21,12 +27,21 @@ export default function LoginModal({
     const password = (form.elements.namedItem("password") as HTMLInputElement).value;
 
     // on envoie une requête POST vers notre route API, avec les données en JSON
-    await fetch("/api/login", {
+    const res = await fetch("/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     });
 
+    if (!res.ok) {
+      // res.ok est faux pour les statuts 401 etc. : on lit le message d'erreur renvoyé par l'API
+      const data = await res.json();
+      setError(data.error ?? "Une erreur est survenue");
+      return;
+    }
+
+    // succès : on rafraîchit l'utilisateur affiché dans la navbar, puis on ferme la popup
+    onSuccess();
     onClose();
   }
 
@@ -51,6 +66,12 @@ export default function LoginModal({
         </button>
 
         <h1 className="text-2xl font-bold text-brown mb-2 text-center">Log in</h1>
+
+        {error && (
+          <p className="text-sm text-center text-red-600 bg-red-50 border border-red-200 rounded-lg py-2 px-3">
+            {error}
+          </p>
+        )}
 
         <label className="flex flex-col gap-1 text-sm text-brown-mid">
           Email

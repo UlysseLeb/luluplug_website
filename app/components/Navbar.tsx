@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import LoginModal from "./LoginModal";
 
@@ -8,6 +8,25 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   // état de la popup de connexion (ouverte/fermée)
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  // utilisateur actuellement connecté (null si personne)
+  const [user, setUser] = useState<{ email: string } | null>(null);
+
+  // demande à /api/me qui est connecté, à partir du cookie de session
+  function refreshUser() {
+    fetch("/api/me")
+      .then((res) => res.json())
+      .then((data) => setUser(data.user));
+  }
+
+  // on vérifie l'état de connexion une fois, au chargement de la navbar
+  useEffect(() => {
+    refreshUser();
+  }, []);
+
+  async function handleLogout() {
+    await fetch("/api/logout", { method: "POST" });
+    setUser(null);
+  }
 
   return (
     <>
@@ -42,13 +61,26 @@ export default function Navbar() {
           <a href="#faq" className="hover:text-brown transition-colors">
             Support / FAQ
           </a>
-          <button
-            type="button"
-            onClick={() => setIsLoginOpen(true)}
-            className="px-5 py-2.5 rounded-full border border-border text-brown hover:bg-dim transition-colors"
-          >
-            Login
-          </button>
+          {user ? (
+            <div className="flex items-center gap-3">
+              <span className="text-brown">{user.email}</span>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="px-5 py-2.5 rounded-full border border-border text-brown hover:bg-dim transition-colors"
+              >
+                Log out
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setIsLoginOpen(true)}
+              className="px-5 py-2.5 rounded-full border border-border text-brown hover:bg-dim transition-colors"
+            >
+              Login
+            </button>
+          )}
         </div>
 
         {/* bouton hamburger, visible seulement sur mobile */}
@@ -93,21 +125,38 @@ export default function Navbar() {
           >
             Support / FAQ
           </a>
-          <button
-            type="button"
-            onClick={() => {
-              setIsMenuOpen(false);
-              setIsLoginOpen(true);
-            }}
-            className="mt-2 px-5 py-2.5 rounded-full border border-border text-brown text-center hover:bg-dim transition-colors"
-          >
-            Login
-          </button>
+          {user ? (
+            <button
+              type="button"
+              onClick={() => {
+                setIsMenuOpen(false);
+                handleLogout();
+              }}
+              className="mt-2 px-5 py-2.5 rounded-full border border-border text-brown text-center hover:bg-dim transition-colors"
+            >
+              Log out ({user.email})
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => {
+                setIsMenuOpen(false);
+                setIsLoginOpen(true);
+              }}
+              className="mt-2 px-5 py-2.5 rounded-full border border-border text-brown text-center hover:bg-dim transition-colors"
+            >
+              Login
+            </button>
+          )}
         </nav>
       )}
 
     </header>
-    <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
+    <LoginModal
+      open={isLoginOpen}
+      onClose={() => setIsLoginOpen(false)}
+      onSuccess={refreshUser}
+    />
     </>
   );
 }

@@ -7,6 +7,10 @@ import bcrypt from "bcryptjs";
 const adapter = new PrismaBetterSqlite3({ url: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
 
+//Permet de crypter le cookie d'utilisateur (sécurisé) pour l'authentification
+import jwt from "jsonwebtoken";
+
+
 export async function POST(request: NextRequest) {
 
     // request.json() ne peut être lu qu'une seule fois : on le fait une fois, puis on déstructure
@@ -19,6 +23,8 @@ export async function POST(request: NextRequest) {
   // si l'email n'existe pas, "user" est null : on ne peut pas comparer un mot de passe
   // avec quelque chose qui n'existe pas, donc on s'arrête ici avec une erreur générique
   if (!user) {
+
+
     return NextResponse.json({ error: "Email ou mot de passe incorrect" }, { status: 401 });
   }
 
@@ -32,5 +38,18 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Email ou mot de passe incorrect" }, { status: 401 });
   }
 
-  return NextResponse.json({ ok: true });
+
+  const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET!);
+
+  // on attache le token au cookie de la réponse ; httpOnly empêche le JS du
+  // navigateur de le lire (protection contre le vol de session via une faille XSS)
+  const response = NextResponse.json({ ok: true });
+  response.cookies.set("session", token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "lax",
+    path: "/",
+  });
+
+  return response;
 }
