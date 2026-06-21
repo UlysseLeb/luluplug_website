@@ -41,3 +41,7 @@ yarn-error.log*
 next-env.d.ts
 
 /app/generated/prisma
+
+# base SQLite locale (en prod, le fichier vit sur un volume Railway séparé)
+*.db
+*.db-journal
