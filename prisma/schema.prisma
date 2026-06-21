@@ -11,3 +11,11 @@ generator client {
 datasource db {
   provider = "sqlite"
 }
+
+
+model User {
+  id       String @id @default(cuid())
+  // @unique empêche deux comptes d'avoir le même email
+  email    String @unique
+  password String
+}
