@@ -34,13 +34,14 @@ const plugins: Plugin[] = [
     ],
   },
   {
-    name: "Lulu Synth 2",
+    name: "Lulu Synth",
     tagline: "Digital Vocoder with analog character",
     bestFor: "Vocals, synths, sound design",
     price: "FREE",
     category: "Modulation",
     accent: "#34d399",
     downloadUrl: "/Lulu-Synth-2_LuluPlug.zip",
+    image: "/ui_lulusynth_no_background.png",
     controls: [
       { label: "RATE", value: 0.3 },
       { label: "DEPTH", value: 0.55 },
@@ -49,12 +50,13 @@ const plugins: Plugin[] = [
     ],
   },
   {
-    name: "LuluVerb",
+    name: "Lulu Verb",
     tagline: "Natural, spatial reverb",
     bestFor: "Vocals, pads, ambiences",
     price: 49,
     category: "Reverb",
     accent: "#818cf8",
+    image: "/ui_lulu_verb.png",
     controls: [
       { label: "SIZE", value: 0.7 },
       { label: "DECAY", value: 0.55 },
@@ -64,14 +66,14 @@ const plugins: Plugin[] = [
       { label: "MIX", value: 0.5 },
     ],
   },
-  
   {
-    name: "LuluComp",
+    name: "Lulu Comp",
     tagline: "Transparent or colored compression",
     bestFor: "Bus, drums, mix buss",
     price: 39,
     category: "Dynamics",
-    accent: "#fb923c",
+    accent: "#f43f5e",
+    image: "/ui_lulu_comp.png",
     controls: [
       { label: "THRESH", value: 0.6 },
       { label: "RATIO", value: 0.4 },
@@ -81,6 +83,7 @@ const plugins: Plugin[] = [
     ],
   },
   
+
 ];
 
 function Knob({ control, accent }: { control: Control; accent: string }) {
@@ -98,15 +101,13 @@ function Knob({ control, accent }: { control: Control; accent: string }) {
   );
 }
 
-// petits carrés décoratifs disposés autour de la fenêtre, qui bougent avec elle au survol
+// 2 grands carrés décoratifs, positionnés DANS la fenêtre pour que rien ne déborde
 const decorSquares = [
-  { top: "-10%", left: "-6%", size: 22, lag: 1 },
-  { top: "8%", left: "104%", size: 16, lag: 1.6 },
-  { top: "78%", left: "-8%", size: 14, lag: 1.3 },
-  { top: "92%", left: "98%", size: 20, lag: 0.8 },
+  { top: "-18%", left: "-12%", size: 150, lag: 1 },
+  { top: "62%", left: "76%", size: 130, lag: 1.3 },
 ];
 
-// fenêtre de plugin "flottante", entourée de petits carrés qui se déplacent avec elle au survol
+// fenêtre de plugin "flottante", avec des carrés décoratifs qui bougent avec elle au survol, sans déborder
 function PluginWindow({ accent, children }: { accent: string; children: ReactNode }) {
   const windowRef = useRef<HTMLDivElement>(null);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
@@ -119,7 +120,7 @@ function PluginWindow({ accent, children }: { accent: string; children: ReactNod
     // position de la souris par rapport au centre de la fenêtre, normalisée entre -1 et 1
     const px = (e.clientX - rect.left) / rect.width - 0.5;
     const py = (e.clientY - rect.top) / rect.height - 0.5;
-    setOffset({ x: px * 16, y: py * 12 });
+    setOffset({ x: px * 14, y: py * 10 });
   }
 
   function handleMouseLeave() {
@@ -131,24 +132,6 @@ function PluginWindow({ accent, children }: { accent: string; children: ReactNod
 
   return (
     <div className="relative pt-6 px-6 pb-2">
-      {/* les carrés suivent le même déplacement que la fenêtre, en plus marqué, pour donner un effet vivant */}
-      {decorSquares.map((sq, i) => (
-        <div
-          key={i}
-          className="absolute rounded-md"
-          style={{
-            top: sq.top,
-            left: sq.left,
-            width: sq.size,
-            height: sq.size,
-            backgroundColor: accent,
-            opacity: isHovering ? 0.8 : 0.35,
-            transform: `translate(${offset.x * sq.lag}px, ${offset.y * sq.lag}px) scale(${isHovering ? 1.15 : 1})`,
-            transition,
-          }}
-        />
-      ))}
-
       <div
         ref={windowRef}
         onMouseMove={handleMouseMove}
@@ -162,7 +145,34 @@ function PluginWindow({ accent, children }: { accent: string; children: ReactNod
           transition,
         }}
       >
-        {children}
+        {/* les carrés sont clippés par le overflow-hidden de la fenêtre : ils ne débordent jamais */}
+        {decorSquares.map((sq, i) => (
+          <div
+            key={i}
+            className="absolute rounded-md"
+            style={{
+              top: sq.top,
+              left: sq.left,
+              width: sq.size,
+              height: sq.size,
+              backgroundColor: accent,
+              opacity: isHovering ? 0.5 : 0.2,
+              transform: `translate(${offset.x * sq.lag}px, ${offset.y * sq.lag}px) scale(${isHovering ? 1.1 : 1})`,
+              transition,
+            }}
+          />
+        ))}
+
+        {/* l'interface du plugin (image ou mockup) bouge aussi légèrement au survol */}
+        <div
+          className="absolute inset-0"
+          style={{
+            transform: `translate(${offset.x * 0.6}px, ${offset.y * 0.6}px) scale(${isHovering ? 1.04 : 1})`,
+            transition,
+          }}
+        >
+          {children}
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 # LuluPlug
 
-Marketing site for LuluPlug, an audio plugin brand. Showcases the plugin catalog (LuluVerb, LuluDelay, LuluComp, LuluSpace, Vocobox) with a hero section and product cards.
+Marketing site for LuluPlug, an audio plugin brand. Showcases the plugin catalog (Lulu Verb, LuluDelay, LuluComp, LuluSpace, Vocobox) with a hero section and product cards.
 
 ## Tech stack
 
