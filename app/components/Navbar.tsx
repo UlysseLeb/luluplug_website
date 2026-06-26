@@ -30,15 +30,15 @@ export default function Navbar() {
 
   return (
     <>
-    <header className="sticky top-0 z-50 bg-bg/95 backdrop-blur-sm border-b border-border">
+    <header className="sticky top-0 z-50 bg-accent/15 backdrop-blur-sm border-b border-border">
       <div className="max-w-10xl mx-auto px-6 h-28 flex items-center justify-between">
         <div className="flex items-center gap-8">
           <a href="/" className="flex items-center">
             <Image
               src="/new_logo.png"
               alt="LuluPlug"
-              width={160}
-              height={64}
+              width={220}
+              height={88}
               className="object-contain"
               priority
             />
