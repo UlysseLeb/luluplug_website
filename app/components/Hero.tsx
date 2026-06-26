@@ -62,8 +62,19 @@ export default function Hero() {
           <audio ref={audioRef} src="/vocobox-demo.mp3" onEnded={() => setIsPlaying(false)} />
 
           <Image src="/vocobox_logo_text.png" alt="Vocobox" width={220} height={242} className="object-contain" />
-          <span className="w-16 h-16 rounded-full bg-brown text-bg flex items-center justify-center text-2xl shadow-xl">
-            {isPlaying ? "❙❙" : "▶"}
+          <span className="w-16 h-16 rounded-full bg-brown text-bg flex items-center justify-center shadow-xl">
+            {isPlaying ? (
+              // icône pause : deux barres verticales en SVG
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <rect x="6" y="4" width="4" height="16" rx="1" />
+                <rect x="14" y="4" width="4" height="16" rx="1" />
+              </svg>
+            ) : (
+              // icône play : un triangle en SVG
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7 4.5v15l13-7.5z" />
+              </svg>
+            )}
           </span>
         </button>
       </div>
