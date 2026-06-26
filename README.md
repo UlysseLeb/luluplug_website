@@ -1,3 +1,7 @@
+
+
+https://github.com/user-attachments/assets/f0784363-d27c-4be0-b10b-491f24ebe8b4
+
 # LuluPlug
 
 Marketing site for LuluPlug, an audio plugin brand. Showcases the plugin catalog (Lulu Verb, LuluDelay, LuluComp, LuluSpace, Vocobox) with a hero section and product cards.
