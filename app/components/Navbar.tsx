@@ -37,8 +37,8 @@ export default function Navbar() {
             <Image
               src="/new_logo.png"
               alt="LuluPlug"
-              width={220}
-              height={88}
+              width={160}
+              height={64}
               className="object-contain"
               priority
             />
